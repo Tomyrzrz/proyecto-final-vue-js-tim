@@ -3,7 +3,7 @@
         <div class="cart-container">
             <img src="../assets/carrito.png" alt="Carrito">
             <div class="cart-counter">
-                <p class="text-warning">{{products.length}}</p>
+                <p class="text-warning">{{totalOfProducts}}</p>
             </div>        
         </div>
     </div>
@@ -13,8 +13,8 @@
 export default {
     name: "Cart",
     props: {
-        products: {
-            type: Array,
+        totalOfProducts: {
+            type: Number,
             required: true,
         },
     },

@@ -5,7 +5,7 @@
             <h1>Pizzas, pastas y postres</h1>
             <h2>Todo rico y casero</h2>
         </div>
-        <Cart :products="productsInCart"/>
+        <Cart :totalOfProducts="totalizeProducts"/>
         <div class="row row-cols-1 row-cols-md-3 justify-content-center">
             <Products 
                 v-for="(product, i) in products" :key="i"
@@ -14,10 +14,12 @@
                     :description="product.description"
                     :price="product.price"
                     :photo="product.photo"
+                    :quantity="product.quantity"
                     @add-to-cart="addToCart"
             />
         </div>
         <Registration/>
+        <Login/>
     </div>
 </template>
 
@@ -26,6 +28,7 @@
 import Products from './components/Products.vue';
 import Cart from './components/Cart.vue';
 import Registration from './components/Registration.vue';
+import Login from './components/Login.vue';
 
 export default {
     name: "App",
@@ -33,27 +36,42 @@ export default {
         Products,
         Cart,
         Registration,
+        Login,
     },
     data() {
         return {
             products: [
-                {id: 1, tittle: "Pizza con almendras", description: "Pizza con salsa de tomate, queso mozzarella premium, pimientos rojos y verdes y almendras tostadas.", price: 999, photo: "pizzas/pizza-almendras.png", category: "pizzas"},
-                {id: 2, tittle: "Pizza con carne", description: "Pizza con salsa de tomate, queso mozzarella premium, pimientos rojos, amarillos y verdes en cubos y trocitos de carne de ternera al horno.", price: 1999, photo: "pizzas/pizza-carne.png", category: "pizzas"},
-                {id: 3, tittle: "Pizza Margarita", description: "Pizza con salsa de tomate, queso mozzarella premium y albahaca fresca, con reducción de aceite de oliva.", price: 899, photo: "pizzas/pizza-margarita.png", category: "pizzas"},
-                {id: 4, tittle: "Pizza con morrones", description: "Pizza con salsa de tomate, queso mozzarella premium y morrones rojos asados.", price: 1099, photo: "pizzas/pizza-morrones.png", category: "pizzas"},
-                {id: 5, tittle: "Pizza con tomates", description: "Pizza con salsa de tomate, queso cuartirolo y tomates cherry confitados.", price: 799, photo: "pizzas/pizza-tomates.png", category: "pizzas"}, 
+                {id: 1, tittle: "Pizza con almendras", description: "Pizza con salsa de tomate, queso mozzarella premium, pimientos rojos y verdes y almendras tostadas.", price: 999, photo: "pizzas/pizza-almendras.png", category: "pizzas", quantity:0},
+                {id: 2, tittle: "Pizza con carne", description: "Pizza con salsa de tomate, queso mozzarella premium, pimientos rojos, amarillos y verdes en cubos y trocitos de carne de ternera al horno.", price: 1999, photo: "pizzas/pizza-carne.png", category: "pizzas", quantity:0},
+                {id: 3, tittle: "Pizza Margarita", description: "Pizza con salsa de tomate, queso mozzarella premium y albahaca fresca, con reducción de aceite de oliva.", price: 899, photo: "pizzas/pizza-margarita.png", category: "pizzas", quantity:0},
+                {id: 4, tittle: "Pizza con morrones", description: "Pizza con salsa de tomate, queso mozzarella premium y morrones rojos asados.", price: 1099, photo: "pizzas/pizza-morrones.png", category: "pizzas", quantity:0},
+                {id: 5, tittle: "Pizza con tomates", description: "Pizza con salsa de tomate, queso cuartirolo y tomates cherry confitados.", price: 799, photo: "pizzas/pizza-tomates.png", category: "pizzas", quantity:0}, 
             ],
             productsInCart: [],
+            
         }
     },
     methods: {
-        addToCart(id) {
-            let result = this.products.find((item) => {
-                return item.id == id;
+        addToCart() {
+            let result = this.productsInCart.find((item) => {
+                return item.id == this.id;
             });
-            this.productsInCart.push(result);
-        }
-    },
+            if (result == -1) {
+                this.productsInCart.push({
+                    id:this.id,
+                    tittle:this.tittle,
+                    price:this.price,
+                    quantity:this.quantity,
+                });
+            }
+            else {
+                this.productsInCart[result].quantity=this.quantity;
+            }
+        },
+        totalizeProducts() {
+            return this.productsInCart.map(products => products.quantity).reduce((prev, curr) => prev + curr, 0)
+        },           
+    }
 }
 </script>
 
