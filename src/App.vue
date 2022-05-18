@@ -52,25 +52,25 @@ export default {
         }
     },
     methods: {
-        addToCart() {
-            let result = this.productsInCart.find((item) => {
-                return item.id == this.id;
+        addToCart(id) {
+            let productAdded = this.productsInCart.find((item) => {
+                return item.id == id;
             });
-            if (result == -1) {
-                this.productsInCart.push({
-                    id:this.id,
-                    tittle:this.tittle,
-                    price:this.price,
-                    quantity:this.quantity,
-                });
+            if (productAdded != null) {
+                productAdded.quantity++; //Aquí debiera sumar la cantidad que agregó el usuario 
             }
             else {
-                this.productsInCart[result].quantity=this.quantity;
+                let newProduct = this.productsInCart.find((item) => {
+                return item.id == id;});    
+                let newCopy = {...newProduct, quantity: 1}; //Aquí debiera sumar la cantidad que agregó el usuario
+                this.productsInCart.push(newCopy);
             }
         },
+    },
+    computed: {
         totalizeProducts() {
             return this.productsInCart.map(products => products.quantity).reduce((prev, curr) => prev + curr, 0)
-        },           
+        },
     }
 }
 </script>
