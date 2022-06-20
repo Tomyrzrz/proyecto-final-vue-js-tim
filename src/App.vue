@@ -2,8 +2,8 @@
     <div id="app">
         <div class="header d-flex flex-column align-items-center m-2">
             <img alt="3P logo" src="./assets/3p-logo.png">
-            <h1>Pizzas, pastas y postres</h1>
-            <h2>Todo rico y casero</h2>
+            <h1>Pizzas, pastas y Ensaladas</h1>
+            <h2>Todo rico y casero hecho al momento</h2>
         </div>
         <Cart :totalOfProducts="totalizeProducts"/>
         <div class="row row-cols-1 row-cols-md-3 justify-content-center">
